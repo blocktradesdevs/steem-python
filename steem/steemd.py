@@ -1020,6 +1020,32 @@ class Steemd(HttpClient):
         return self.call(
             'get_key_references', public_keys, api='account_by_key_api')
 
+    def find_proposals(self, id_set):
+        kwargs = {
+            "id_set" : id_set
+        }
+        return self.call('sps_api.find_proposals', id_set = id_set, use_condenser = False)
+
+    def list_voter_proposals(self, voter, order_by, order_direction, limit, active):
+        kwargs = {
+            "voter" : voter,
+            "order_by" : order_by, 
+            "order_direction" : order_direction,
+            "limit" : limit,
+            "active" : active
+        }
+        return self.call('sps_api.list_voter_proposals', voter = voter, order_by = order_by, order_direction = order_direction, limit = limit, active = active, use_condenser = False)
+
+    def list_proposals(self, start, order_by, order_direction, limit, active):
+        kwargs = {
+            "start" : start,
+            "order_by" : order_by, 
+            "order_direction" : order_direction,
+            "limit" : limit,
+            "active" : active
+        }
+        return self.call('sps_api.list_proposals', start = start, order_by = order_by, order_direction = order_direction, limit = limit, active = active, use_condenser = False)
+
 
 if __name__ == '__main__':
     s = Steemd()

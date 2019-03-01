@@ -56,6 +56,9 @@ op_names = [
     'comment_payout_update',
     'return_vesting_delegation',
     'comment_benefactor_reward',
+    'create_proposal',
+    'update_proposal_votes',
+    'remove_proposal'
 ]
 
 #: assign operation ids

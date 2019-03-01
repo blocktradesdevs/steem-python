@@ -205,6 +205,8 @@ class HttpClient(object):
                     'method': name,
                     'params': params}
 
+        print(body)
+
         if as_json:
             return json.dumps(body, ensure_ascii=False).encode('utf8')
 
@@ -242,7 +244,8 @@ class HttpClient(object):
             try:
 
                 body_kwargs = kwargs.copy()
-                if not self._curr_node_downgraded():
+                use_condenser = body_kwargs.pop('use_condenser', True)
+                if use_condenser and (not self._curr_node_downgraded()):
                     body_kwargs['api'] = 'condenser_api'
 
                 body = HttpClient.json_rpc_body(name, *args, **body_kwargs)

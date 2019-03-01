@@ -1463,6 +1463,41 @@ class Commit(object):
             })
         return self.finalizeOp(op, account["name"], "posting")
 
+    def create_proposal(self, creator, receiver, start_date, end_date, daily_pay, subject, url):
+        creator = Account(creator, steemd_instance=self.steemd)
+        op = operations.CreateProposal(
+            **{
+                "creator" : creator["name"],
+                "receiver" : receiver,
+                "start_date" : start_date,
+                "end_date" : end_date,
+                "daily_pay" : daily_pay,
+                "subject" : subject,
+                "url" : url
+            }
+        )
+        return self.finalizeOp(op, creator["name"], "owner")
+    
+    def update_proposal_votes(self, voter, proposal_ids, approve):
+        voter = Account(voter, steemd_instance=self.steemd)
+        op = operations.UpdateProposalVotes(
+            **{
+                "voter" : voter["name"],
+                "proposal_ids" : proposal_ids,
+                "approve" : approve
+            }
+        )
+        return self.finalizeOp(op, voter["name"], "owner")
+
+    def remove_proposal(self, proposal_owner, proposal_ids):
+        proposal_owner = Account(proposal_owner, steemd_instance=self.steemd)
+        op = operations.RemoveProposal(
+            **{
+                "proposal_owner" : proposal_owner["name"],
+                "proposal_ids" : proposal_ids
+            }
+        )
+        return self.finalizeOp(op, proposal_owner["name"], "owner")
 
 if __name__ == "__main__":
     pass

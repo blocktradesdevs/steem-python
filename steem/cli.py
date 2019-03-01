@@ -727,6 +727,66 @@ def legacyentry():
         help='SBD interest rate in percent')
     parser_witnesscreate.add_argument(
         '--url', type=str, default="", help='Witness URL')
+
+    """
+        create_proposal
+    """
+    parser_createproposal = subparsers.add_parser('createproposal', help = 'Create new proposal for Steem Proposal System')
+    parser_createproposal.set_defaults(command = 'createproposal')
+    parser_createproposal.add_argument('creator', type = str, help = 'Creator name')
+    parser_createproposal.add_argument('receiver', type = str, help = 'Receiver name')
+    parser_createproposal.add_argument('start_date', type = str, help = 'Start date for proposal')
+    parser_createproposal.add_argument('end_date', type = str, help = 'End date of proposa')
+    parser_createproposal.add_argument('daily_pay', type = str, help = 'Daily pay for proposal')
+    parser_createproposal.add_argument('subject', type = str, help = 'Subject of the proposal')
+    parser_createproposal.add_argument('url', type = str, help = 'Link to detailed description of the proposal')
+    
+    """
+        'update_proposal_votes'
+    """
+    parser_updateproposalvotes = subparsers.add_parser('updateproposalvotes', help = 'Enables voting for chosen proposals')
+    parser_updateproposalvotes.set_defaults(command = 'updateproposalvotes')
+    parser_updateproposalvotes.add_argument('voter', type = str, help = 'Voter name')
+    parser_updateproposalvotes.add_argument('proposal_ids', type = int, nargs = '*', help = 'List of proposal ids to vote')
+    parser_updateproposalvotes.add_argument('approve', type = bool, help = 'Approve proposals given with ids')
+
+    """
+        'remove_proposal'
+    """
+    parser_removeproposal = subparsers.add_parser('removeproposal', help = 'Remove proposals with given ids')
+    parser_removeproposal.set_defaults(command = 'removepropsal')
+    parser_removeproposal.add_argument('proposal_owner', type = str, help = 'Proposal owner name')
+    parser_removeproposal.add_argument('proposal_ids', type = int, nargs = '*', help = 'List of proposal ids to vote')
+
+    """
+        find_proposals
+    """
+    parser_findproposals = subparsers.add_parser('findproposals', help = 'List proposals with given ids')
+    parser_findproposals.set_defaults(command = 'findproposals')
+    parser_findproposals.add_argument('proposal_ids', type = int, nargs = '*', help = 'List of proposal ids to find')
+
+    """
+        list_proposals
+    """
+    parser_listproposals = subparsers.add_parser('listproposals', help = 'List proposals based on search criterias')
+    parser_listproposals.set_defaults(command = 'listproposals')
+    parser_listproposals.add_argument('start', type = str, help = '')
+    parser_listproposals.add_argument('order_by', type = str, help = '', choices=["by_creator", "by_start_date", "by_end_date", "by_number_of_votes"])
+    parser_listproposals.add_argument('order_direction', type = str, help = '', choices = ["direction_ascending", "direction_descending"])
+    parser_listproposals.add_argument('limit', type = int, help = '')
+    parser_listproposals.add_argument('active', type = int, help = '', choices = [0, 1, -1])
+
+    """
+        list_voter_proposals
+    """
+    parser_listvoterproposals = subparsers.add_parser('listvoterproposals', help = 'List proposals voted by give voter')
+    parser_listvoterproposals.set_defaults(command = 'listvoterproposals')
+    parser_listvoterproposals.add_argument('voter', type = str, help = '')
+    parser_listvoterproposals.add_argument('order_by', type = str, help = '', choices=["by_creator", "by_start_date", "by_end_date", "by_number_of_votes"])
+    parser_listvoterproposals.add_argument('order_direction', type = str, help = '', choices = ["direction_ascending", "direction_descending"])
+    parser_listvoterproposals.add_argument('limit', type = int, help = '')
+    parser_listvoterproposals.add_argument('active', type = int, help = '', choices = [0, 1, -1])
+    
     """
         Parse Arguments
     """
@@ -1310,6 +1370,24 @@ def legacyentry():
         print_json(
             steem.commit.witness_update(
                 args.signing_key, args.url, props, account=args.witness))
+
+    elif args.command == "createproposal":
+        print_json(steem.commit.create_proposal(args.creator, args.receiver, args.start_date, args.end_date, args.subject, args.url))
+
+    elif args.command == "updateproposalvotes":
+        print_json(steem.commit.update_proposal_votes(args.voter, args.proposal_ids, args.approve))
+
+    elif args.command == "removeproposal":
+        print_json(steem.commit.remove_proposal(args.proposal_owner, args.proposal_ids))
+
+    elif args.command == "findproposals":
+        print_json(steem.find_proposals(args.proposal_ids))
+
+    elif args.command == "listproposals":
+        print_json(steem.list_proposals(args.start, args.order_by, args.order_direction, args.limit, args.active))
+
+    elif args.command == "listvoterproposals":
+        print_json(steem.list_voter_proposals(args.voter, args.order_by, args.order_direction, args.limit, args.active))
 
     else:
         print("No valid command given")

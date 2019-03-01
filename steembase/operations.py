@@ -814,6 +814,56 @@ class CommentOptions(GrapheneObject):
                     ('extensions', extensions),
                 ]))
 
+class CreateProposal(GrapheneObject):
+    def __init__(self, *args, **kwargs):
+        if isArgsThisClass(self, args):
+            self.data = args[0].data
+        else:
+            if len(args) == 1 and len(kwargs) == 0:
+                kwargs = args[0]
+            
+            super(CreateProposal, self).__init__(
+                OrderedDict([
+                    ('creator', String(kwargs["creator"])),
+                    ('receiver', String(kwargs["receiver"])),
+                    ('start_date', String(kwargs["start_date"])),
+                    ('end_date', String(kwargs["end_date"])),
+                    ('daily_pay', Amount(kwargs("daily_pay"))),
+                    ('subject', String(kwargs("subject"))),
+                    ('url', String(kwargs("subject")))
+                ])
+            )
+
+class UpdateProposalVotes(GrapheneObject):
+    def __init__(self, *args, **kwargs):
+        if isArgsThisClass(self, args):
+            self.data = args[0].data
+        else:
+            if len(args) == 1 and len(kwargs) == 0:
+                kwargs = args[0]
+            
+            super(UpdateProposalVotes, self).__init__(
+                OrderedDict([
+                    ('voter', String(kwargs["voter"])),
+                    ('proposal_ids', Array([Uint64(o) for o in kwargs["proposal_ids"]])),
+                    ('approve', Bool(bool(kwargs["approve"])))
+                ])
+            )
+
+class RemoveProposal(GrapheneObject):
+    def __init__(self, *args, **kwargs):
+        if isArgsThisClass(self, args):
+            self.data = args[0].data
+        else:
+            if len(args) == 1 and len(kwargs) == 0:
+                kwargs = args[0]
+            
+            super(RemoveProposal, self).__init__(
+                OrderedDict([
+                    ('proposal_owner', String(kwargs["proposal_owner"])),
+                    ('proposal_ids', Array([Uint64(o) for o in kwargs["proposal_ids"]]))
+                ])
+            )
 
 def isArgsThisClass(self, args):
     return len(args) == 1 and type(args[0]).__name__ == type(self).__name__
