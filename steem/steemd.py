@@ -1021,30 +1021,56 @@ class Steemd(HttpClient):
             'get_key_references', public_keys, api='account_by_key_api')
 
     def find_proposals(self, id_set):
-        kwargs = {
-            "id_set" : id_set
-        }
-        return self.call('sps_api.find_proposals', id_set = id_set, use_condenser = False)
+        """ Find proposals with given ids
+            :param list id_set: List of the proposal ids to be found
+        """
+        return self.call('sps_api.find_proposals', 
+            id_set = id_set, 
+            use_condenser = False)
 
     def list_voter_proposals(self, voter, order_by, order_direction, limit, active):
-        kwargs = {
-            "voter" : voter,
-            "order_by" : order_by, 
-            "order_direction" : order_direction,
-            "limit" : limit,
-            "active" : active
-        }
-        return self.call('sps_api.list_voter_proposals', voter = voter, order_by = order_by, order_direction = order_direction, limit = limit, active = active, use_condenser = False)
+        """ Query for proposals voted by given voter
+            :param str voter: Voter account name
+            :param str order_by: Results will be ordered with respect to given
+                field name. Allowed: by_creator, by_start_date, by_end_date, 
+                by_number_of_votes
+            :param str order_direction: Results will be ordered descending or
+                ascending depending on this option. Allowed:
+                direction_ascending, direction_descending
+            :param int limit: Limit results to this value
+            :param int active: Results will be filtered according to the active
+                status. 0 - inactive, 1 - active, -1 - all
+        """
+        return self.call('sps_api.list_voter_proposals', 
+            voter = voter, 
+            order_by = order_by, 
+            order_direction = order_direction, 
+            limit = limit, 
+            active = active, 
+            use_condenser = False)
 
     def list_proposals(self, start, order_by, order_direction, limit, active):
-        kwargs = {
-            "start" : start,
-            "order_by" : order_by, 
-            "order_direction" : order_direction,
-            "limit" : limit,
-            "active" : active
-        }
-        return self.call('sps_api.list_proposals', start = start, order_by = order_by, order_direction = order_direction, limit = limit, active = active, use_condenser = False)
+        """ Query for proposals with search criteria
+            :param str start: Starting value for search. This option is coupled
+                with order_by option. If you select by_creator in order_by
+                start have to be an account name
+            :param str order_by: Results will be ordered with respect to given
+                field name. Allowed: by_creator, by_start_date, by_end_date, 
+                by_number_of_votes
+            :param str order_direction: Results will be ordered descending or
+                ascending depending on this option. Allowed:
+                direction_ascending, direction_descending
+            :param int limit: Limit results to this value
+            :param int active: Results will be filtered according to the active
+                status. 0 - inactive, 1 - active, -1 - all
+        """
+        return self.call('sps_api.list_proposals', 
+            start = start, 
+            order_by = order_by, 
+            order_direction = order_direction, 
+            limit = limit, 
+            active = active, 
+            use_condenser = False)
 
 
 if __name__ == '__main__':

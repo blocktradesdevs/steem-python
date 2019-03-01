@@ -1464,6 +1464,15 @@ class Commit(object):
         return self.finalizeOp(op, account["name"], "posting")
 
     def create_proposal(self, creator, receiver, start_date, end_date, daily_pay, subject, url):
+        """ Create new proposal in Steem Proposal System
+            :param str creator: Proposal creator
+            :param str receiver: Receiver of the funds
+            :param str start_date: Stating date of proposal
+            :param str end_date: Ending date for the proposal
+            :param str daily_pay: Amount of assets to be paid daily
+            :param str subject: Short description of the proposal
+            :param str url: Url with long description of the proposal
+        """
         creator = Account(creator, steemd_instance=self.steemd)
         op = operations.CreateProposal(
             **{
@@ -1479,6 +1488,12 @@ class Commit(object):
         return self.finalizeOp(op, creator["name"], "owner")
     
     def update_proposal_votes(self, voter, proposal_ids, approve):
+        """ Allows for voting for selected proposals
+            :param str voter: Voter account name
+            :param list proposal_ids: List with proposal ids. Voter will vote
+                for proposals given in this list
+            :param bool approve: If set to true proposals will be approved
+        """
         voter = Account(voter, steemd_instance=self.steemd)
         op = operations.UpdateProposalVotes(
             **{
@@ -1490,6 +1505,10 @@ class Commit(object):
         return self.finalizeOp(op, voter["name"], "owner")
 
     def remove_proposal(self, proposal_owner, proposal_ids):
+        """ Allows to remove given proposals by proposal creator
+            :param str proposal_owner: Proposal owner/creator account
+            :param list proposal_ids: Ids of the proposal to be removed
+        """
         proposal_owner = Account(proposal_owner, steemd_instance=self.steemd)
         op = operations.RemoveProposal(
             **{
