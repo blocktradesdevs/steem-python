@@ -767,7 +767,7 @@ def legacyentry():
     """
     parser_removeproposal = subparsers.add_parser('removeproposal', 
         help = 'Remove proposals with given ids')
-    parser_removeproposal.set_defaults(command = 'removepropsal')
+    parser_removeproposal.set_defaults(command = 'removeproposal')
     parser_removeproposal.add_argument('proposal_owner', type = str, 
         help = 'Proposal owner name')
     parser_removeproposal.add_argument('proposal_ids', type = int, nargs = '*', 

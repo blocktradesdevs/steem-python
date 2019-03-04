@@ -1474,10 +1474,11 @@ class Commit(object):
             :param str url: Url with long description of the proposal
         """
         creator = Account(creator, steemd_instance=self.steemd)
+        receiver = Account(receiver, steemd_instance=self.steemd)
         op = operations.CreateProposal(
             **{
                 "creator" : creator["name"],
-                "receiver" : receiver,
+                "receiver" : receiver["name"],
                 "start_date" : start_date,
                 "end_date" : end_date,
                 "daily_pay" : daily_pay,
@@ -1485,7 +1486,7 @@ class Commit(object):
                 "url" : url
             }
         )
-        return self.finalizeOp(op, creator["name"], "owner")
+        return self.finalizeOp(op, creator["name"], "active")
     
     def update_proposal_votes(self, voter, proposal_ids, approve):
         """ Allows for voting for selected proposals
@@ -1502,7 +1503,7 @@ class Commit(object):
                 "approve" : approve
             }
         )
-        return self.finalizeOp(op, voter["name"], "owner")
+        return self.finalizeOp(op, voter["name"], "active")
 
     def remove_proposal(self, proposal_owner, proposal_ids):
         """ Allows to remove given proposals by proposal creator
@@ -1516,7 +1517,7 @@ class Commit(object):
                 "proposal_ids" : proposal_ids
             }
         )
-        return self.finalizeOp(op, proposal_owner["name"], "owner")
+        return self.finalizeOp(op, proposal_owner["name"], "active")
 
 if __name__ == "__main__":
     pass
