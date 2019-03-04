@@ -827,8 +827,8 @@ class CreateProposal(GrapheneObject):
                 OrderedDict([
                     ('creator', String(kwargs["creator"])),
                     ('receiver', String(kwargs["receiver"])),
-                    ('start_date', String(kwargs["start_date"])),
-                    ('end_date', String(kwargs["end_date"])),
+                    ('start_date', PointInTime(kwargs["start_date"])),
+                    ('end_date', PointInTime(kwargs["end_date"])),
                     ('daily_pay', Amount(kwargs["daily_pay"])),
                     ('subject', String(kwargs["subject"])),
                     ('url', String(kwargs["url"]))
