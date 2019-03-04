@@ -17,7 +17,7 @@ known_chains = {
     },
     "TESTS": {
         "chain_id":
-            "46d82ab7d8db682eb1959aed0ada039a6d49afa1602491f93dde9cac3e8e6c32",
+            "18dcf0a285365fc58b71f18b3d3fec954aa0c141c44e4e5cb4cf777b9eab274e",
         "prefix":
             "TST",
         "steem_symbol":

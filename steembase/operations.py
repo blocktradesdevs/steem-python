@@ -18,6 +18,7 @@ asset_precision = {
     "STEEM": 3,
     "VESTS": 6,
     "SBD": 3,
+    "TBD" : 3
 }
 
 
@@ -828,9 +829,9 @@ class CreateProposal(GrapheneObject):
                     ('receiver', String(kwargs["receiver"])),
                     ('start_date', String(kwargs["start_date"])),
                     ('end_date', String(kwargs["end_date"])),
-                    ('daily_pay', Amount(kwargs("daily_pay"))),
-                    ('subject', String(kwargs("subject"))),
-                    ('url', String(kwargs("subject")))
+                    ('daily_pay', Amount(kwargs["daily_pay"])),
+                    ('subject', String(kwargs["subject"])),
+                    ('url', String(kwargs["url"]))
                 ])
             )
 

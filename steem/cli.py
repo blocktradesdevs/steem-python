@@ -221,7 +221,7 @@ def legacyentry():
     parser_transfer.add_argument(
         'asset',
         type=str,
-        choices=["STEEM", "SBD"],
+        choices=["STEEM", "SBD", "TBD"],
         help='Asset to transfer (i.e. STEEM or SDB)')
     parser_transfer.add_argument(
         'memo', type=str, nargs="?", default="", help='Optional memo')
@@ -1412,6 +1412,7 @@ def legacyentry():
             args.receiver, 
             args.start_date, 
             args.end_date, 
+            args.daily_pay,
             args.subject, 
             args.url))
 

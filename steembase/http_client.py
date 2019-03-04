@@ -205,8 +205,6 @@ class HttpClient(object):
                     'method': name,
                     'params': params}
 
-        print(body)
-
         if as_json:
             return json.dumps(body, ensure_ascii=False).encode('utf8')
 

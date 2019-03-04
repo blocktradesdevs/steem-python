@@ -175,6 +175,7 @@ class SignedTransaction(GrapheneObject):
         chain_params = self.getChainParams(chain)
         # Chain ID
         self.chainid = chain_params["chain_id"]
+        print("Current chain ID: {}".format(self.chainid))
 
         # Do not serialize signatures
         sigs = self.data["signatures"]

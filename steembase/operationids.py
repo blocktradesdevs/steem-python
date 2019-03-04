@@ -21,8 +21,8 @@ op_names = [
     'comment_options',
     'set_withdraw_vesting_route',
     'limit_order_create2',
-    'challenge_authority',
-    'prove_authority',
+    'claim_account',
+    'create_claimed_account',
     'request_account_recovery',
     'recover_account',
     'change_recovery_account',
@@ -41,7 +41,9 @@ op_names = [
     'claim_reward_balance',
     'delegate_vesting_shares',
     'account_create_with_delegation',
-    'witness_set_properties',
+    'create_proposal',
+    'update_proposal_votes',
+    'remove_proposal',
     'fill_convert_request',
     'author_reward',
     'curation_reward',
@@ -56,10 +58,13 @@ op_names = [
     'comment_payout_update',
     'return_vesting_delegation',
     'comment_benefactor_reward',
-    'create_proposal',
-    'update_proposal_votes',
-    'remove_proposal'
+    'witness_set_properties',
+    'challenge_authority',
+    'prove_authority',
 ]
 
 #: assign operation ids
 operations = dict(zip(op_names, range(len(op_names))))
+# To make sure that operations ids follow ids in cpp
+#for k, v in operations.items():
+#    print("{} -> {}".format(k, v))

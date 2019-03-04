@@ -642,7 +642,7 @@ class Commit(object):
         if not account:
             raise ValueError("You need to provide an account")
 
-        assert asset in ['STEEM', 'SBD']
+        assert asset in ['STEEM', 'SBD', 'TBD']
 
         if memo and memo[0] == "#":
             from steembase import memo as Memo
