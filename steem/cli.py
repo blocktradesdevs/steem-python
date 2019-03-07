@@ -747,7 +747,7 @@ def legacyentry():
     parser_createproposal.add_argument('subject', type = str, 
         help = 'Subject of the proposal')
     parser_createproposal.add_argument('url', type = str, 
-        help = 'Link to detailed description of the proposal')
+        help = 'permlink-identifier of the detailed description of the proposal')
     
     """
         'update_proposal_votes'

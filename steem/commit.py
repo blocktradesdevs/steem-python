@@ -1471,7 +1471,7 @@ class Commit(object):
             :param str end_date: Ending date for the proposal
             :param str daily_pay: Amount of assets to be paid daily
             :param str subject: Short description of the proposal
-            :param str url: Url with long description of the proposal
+            :param str url: permlink-identifier of the detailed description of the proposal
         """
         creator = Account(creator, steemd_instance=self.steemd)
         receiver = Account(receiver, steemd_instance=self.steemd)
