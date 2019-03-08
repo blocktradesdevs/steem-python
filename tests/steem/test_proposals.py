@@ -1,13 +1,14 @@
 from steem import Steem
 from uuid import uuid4
 from time import sleep
+import pytest
 
 TEST_NODES = ["http://127.0.0.1:8090"]
 WIF = "5JNHfZYKGaomSFvd4NUdQ9qMcEAC43kujbfjueTHpVapX1Kzq2n"
 ACCOUNT = "initminer"
 SUBJECT = str(uuid4())
 
-
+@pytest.mark.serial
 def test_create_proposal():
     print("test_create_proposal")
     s = Steem(nodes = TEST_NODES, no_broadcast = False, keys = [WIF])
@@ -40,7 +41,7 @@ def test_create_proposal():
     assert ret["operations"][0][1]["url"] == "mypermlink"
     sleep(6)
 
-
+@pytest.mark.serial
 def test_list_proposals():
     print("test_list_proposals")
     s = Steem(nodes = TEST_NODES, no_broadcast = False, keys = [WIF])
@@ -72,7 +73,7 @@ def test_list_proposals():
     
     assert found is not None
 
-
+@pytest.mark.serial
 def test_find_proposals():
     print("test_find_proposals")
     s = Steem(nodes = TEST_NODES, no_broadcast = False, keys = [WIF])
@@ -90,7 +91,7 @@ def test_find_proposals():
     ret = s.find_proposals([proposal_id])
     assert ret[0]["subject"] == found["subject"]
 
-
+@pytest.mark.serial
 def test_vote_proposal():
     print("test_vote_proposal")
     s = Steem(nodes = TEST_NODES, no_broadcast = False, keys = [WIF])
@@ -112,7 +113,7 @@ def test_vote_proposal():
     assert ret["operations"][0][1]["approve"] == True
     sleep(6)
 
-
+@pytest.mark.serial
 def test_list_voter_proposals():
     print("test_list_voter_proposals")
     s = Steem(nodes = TEST_NODES, no_broadcast = False, keys = [WIF])
@@ -125,7 +126,7 @@ def test_list_voter_proposals():
     
     assert found is not None
 
-
+@pytest.mark.serial
 def test_remove_proposal():
     print("test_remove_proposal")
     s = Steem(nodes = TEST_NODES, no_broadcast = False, keys = [WIF])
