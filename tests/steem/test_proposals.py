@@ -2,11 +2,18 @@ from steem import Steem
 from uuid import uuid4
 from time import sleep
 import pytest
+import os
 
-TEST_NODES = ["http://127.0.0.1:8090"]
-WIF = "5JNHfZYKGaomSFvd4NUdQ9qMcEAC43kujbfjueTHpVapX1Kzq2n"
-ACCOUNT = "initminer"
+TEST_NODES = [os.environ.get("STEEM_TEST_NODE", None)]
+WIF = os.environ.get("STEEM_TEST_WIF", None)
+ACCOUNT = os.environ.get("STEEM_TEST_ACCOUNT", None)
 SUBJECT = str(uuid4())
+
+@pytest.mark.serial
+def test_evn_variables():
+    assert TEST_NODES[0] is not None, "{} environment variable not set".format("STEEM_TEST_NODE")
+    assert WIF is not None, "{} environment variable not set".format("STEEM_TEST_WIF")
+    assert ACCOUNT is not None, "{} environment variable not set".format("STEEM_TEST_ACCOUNT")
 
 @pytest.mark.serial
 def test_create_proposal():
