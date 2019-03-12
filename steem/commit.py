@@ -22,6 +22,7 @@ from .utils import (
     fmt_time_string,
     keep_in_dict,
     resolve_identifier,
+    sanitize_permlink
 )
 from .wallet import Wallet
 
@@ -286,6 +287,8 @@ class Commit(object):
             parent_permlink = ""
             if not permlink:
                 permlink = derive_permlink(title)
+
+        print("Permlink: ", permlink)
 
         post_op = operations.Comment(
             **{
@@ -1463,7 +1466,7 @@ class Commit(object):
             })
         return self.finalizeOp(op, account["name"], "posting")
 
-    def create_proposal(self, creator, receiver, start_date, end_date, daily_pay, subject, url):
+    def create_proposal(self, creator, receiver, start_date, end_date, daily_pay, subject, permlink):
         """ Create new proposal in Steem Proposal System
             :param str creator: Proposal creator
             :param str receiver: Receiver of the funds
@@ -1471,7 +1474,7 @@ class Commit(object):
             :param str end_date: Ending date for the proposal
             :param str daily_pay: Amount of assets to be paid daily
             :param str subject: Short description of the proposal
-            :param str url: permlink-identifier of the detailed description of the proposal
+            :param str permlink: permlink-identifier of the detailed description of the proposal
         """
         creator = Account(creator, steemd_instance=self.steemd)
         receiver = Account(receiver, steemd_instance=self.steemd)
@@ -1483,7 +1486,7 @@ class Commit(object):
                 "end_date" : end_date,
                 "daily_pay" : daily_pay,
                 "subject" : subject,
-                "url" : url
+                "permlink" : sanitize_permlink(permlink)
             }
         )
         return self.finalizeOp(op, creator["name"], "active")

@@ -831,7 +831,7 @@ class CreateProposal(GrapheneObject):
                     ('end_date', PointInTime(kwargs["end_date"])),
                     ('daily_pay', Amount(kwargs["daily_pay"])),
                     ('subject', String(kwargs["subject"])),
-                    ('url', String(kwargs["url"]))
+                    ('permlink', String(kwargs["permlink"]))
                 ])
             )
 

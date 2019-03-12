@@ -29,23 +29,30 @@ def test_create_proposal():
     start_date = start_date.replace(microsecond=0).isoformat()
     end_date = end_date.replace(microsecond=0).isoformat()
 
+    from steem.account import Account
+    try:
+        creator = Account(ACCOUNT)
+    except Exception as ex:
+        logger.error("Account: {} not found. {}".format(ACCOUNT, ex))
+        sys.exit(1)
+    
+    try:
+        receiver = Account("treasury")
+    except Exception as ex:
+        logger.error("Account: {} not found. {}".format("treasury", ex))
+        sys.exit(1)
+
+    ret = s.commit.post("Steempy proposal title", "Steempy proposal body", creator["name"], permlink = "steempy-proposal-title", tags = "proposals")
+
     ret = s.commit.create_proposal(
-      ACCOUNT, 
-      "treasury", 
+      creator["name"], 
+      receiver["name"], 
       start_date, 
       end_date,
       "16.000 TBD",
       SUBJECT,
-      "mypermlink"
+      "steempy-proposal-title"
     )
-
-    assert ret["operations"][0][1]["creator"] == ACCOUNT
-    assert ret["operations"][0][1]["receiver"] == "treasury"
-    assert ret["operations"][0][1]["start_date"] == start_date
-    assert ret["operations"][0][1]["end_date"] == end_date
-    assert ret["operations"][0][1]["daily_pay"] == "16.000 TBD"
-    assert ret["operations"][0][1]["subject"] == SUBJECT
-    assert ret["operations"][0][1]["url"] == "mypermlink"
     sleep(6)
 
 @pytest.mark.serial
