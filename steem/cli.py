@@ -798,9 +798,9 @@ def legacyentry():
         choices = ["direction_ascending", "direction_descending"])
     parser_listproposals.add_argument('limit', type = int, 
         help = 'Limit resut of the query to number defined in this parameter')
-    parser_listproposals.add_argument('active', type = int, 
-        help = 'List only results with given active state (0 - inactive, 1 - active, -1 - all)', 
-        choices = [0, 1, -1])
+    parser_listproposals.add_argument('status', type = str, 
+        help = 'List only results with given state (inactive, active, all)', 
+        choices = ["inactive", "active", "all"])
 
     """
         list_voter_proposals
@@ -818,9 +818,9 @@ def legacyentry():
         choices = ["direction_ascending", "direction_descending"])
     parser_listvoterproposals.add_argument('limit', type = int, 
         help = 'Limit resut of the query to number defined in this parameter')
-    parser_listvoterproposals.add_argument('active', type = int, 
-        help = 'List only results with given active state (0 - inactive, 1 - active, -1 - all)', 
-        choices = [0, 1, -1])
+    parser_listvoterproposals.add_argument('status', type = str, 
+        help = 'List only results with given state (inactive, active, all)', 
+        choices = ["inactive", "active", "all"])
     
     """
         Parse Arguments
@@ -1436,7 +1436,7 @@ def legacyentry():
             args.order_by, 
             args.order_direction, 
             args.limit, 
-            args.active))
+            args.status))
 
     elif args.command == "listvoterproposals":
         print_json(steem.list_voter_proposals(
@@ -1444,7 +1444,7 @@ def legacyentry():
             args.order_by, 
             args.order_direction, 
             args.limit, 
-            args.active))
+            args.status))
 
     else:
         print("No valid command given")
