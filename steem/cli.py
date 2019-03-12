@@ -746,7 +746,7 @@ def legacyentry():
         help = 'Daily pay for proposal')
     parser_createproposal.add_argument('subject', type = str, 
         help = 'Subject of the proposal')
-    parser_createproposal.add_argument('url', type = str, 
+    parser_createproposal.add_argument('permlink', type = str, 
         help = 'permlink-identifier of the detailed description of the proposal')
     
     """
@@ -1414,7 +1414,7 @@ def legacyentry():
             args.end_date, 
             args.daily_pay,
             args.subject, 
-            args.url))
+            args.permlink))
 
     elif args.command == "updateproposalvotes":
         print_json(steem.commit.update_proposal_votes(
