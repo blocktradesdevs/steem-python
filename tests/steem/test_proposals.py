@@ -33,14 +33,14 @@ def test_create_proposal():
     try:
         creator = Account(ACCOUNT)
     except Exception as ex:
-        logger.error("Account: {} not found. {}".format(ACCOUNT, ex))
-        sys.exit(1)
+        print("Account: {} not found. {}".format(ACCOUNT, ex))
+        return False
     
     try:
         receiver = Account("treasury")
     except Exception as ex:
-        logger.error("Account: {} not found. {}".format("treasury", ex))
-        sys.exit(1)
+        print("Account: {} not found. {}".format("treasury", ex))
+        return False
 
     ret = s.commit.post("Steempy proposal title", "Steempy proposal body", creator["name"], permlink = "steempy-proposal-title", tags = "proposals")
 

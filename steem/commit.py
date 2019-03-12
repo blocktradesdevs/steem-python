@@ -288,8 +288,6 @@ class Commit(object):
             if not permlink:
                 permlink = derive_permlink(title)
 
-        print("Permlink: ", permlink)
-
         post_op = operations.Comment(
             **{
                 "parent_author": parent_author,
