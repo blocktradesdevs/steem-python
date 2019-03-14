@@ -189,10 +189,13 @@ class HttpClient(object):
         as_json = kwargs.pop('as_json', True)
         api = kwargs.pop('api', None)
         _id = kwargs.pop('_id', 0)
+        no_params = kwargs.pop('no_params', False)
 
         # `kwargs` for object-style param, `args` for list-style. pick one.
         assert not (kwargs and args), 'fail - passed array AND object args'
         params = kwargs if kwargs else args
+        if no_params:
+            params = {}
 
         if api:
             body = {'jsonrpc': '2.0',
