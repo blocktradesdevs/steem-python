@@ -808,8 +808,8 @@ def legacyentry():
     parser_listvoterproposals = subparsers.add_parser('listvoterproposals', 
         help = 'List proposals voted by give voter')
     parser_listvoterproposals.set_defaults(command = 'listvoterproposals')
-    parser_listvoterproposals.add_argument('voter', type = str, 
-        help = 'Name of the voter account')
+    parser_listvoterproposals.add_argument('start', type = str, 
+        help = 'Starting value for search')
     parser_listvoterproposals.add_argument('order_by', type = str, 
         help = 'Results will be ordered by this field', 
         choices=["by_creator", "by_start_date", "by_end_date", "by_number_of_votes"])
@@ -1440,7 +1440,7 @@ def legacyentry():
 
     elif args.command == "listvoterproposals":
         print_json(steem.list_voter_proposals(
-            args.voter, 
+            args.start, 
             args.order_by, 
             args.order_direction, 
             args.limit, 

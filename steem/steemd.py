@@ -1028,9 +1028,9 @@ class Steemd(HttpClient):
             id_set = id_set, 
             use_condenser = False)
 
-    def list_voter_proposals(self, voter, order_by, order_direction, limit, status):
+    def list_voter_proposals(self, start, order_by, order_direction, limit, status):
         """ Query for proposals voted by given voter
-            :param str voter: Voter account name
+            :param str start: Starting value for search.
             :param str order_by: Results will be ordered with respect to given
                 field name. Allowed: by_creator, by_start_date, by_end_date, 
                 by_number_of_votes
@@ -1041,7 +1041,7 @@ class Steemd(HttpClient):
             :param str status: List only results with given state (inactive, active, all)
         """
         return self.call('sps_api.list_voter_proposals', 
-            voter = voter, 
+            start = start, 
             order_by = order_by, 
             order_direction = order_direction, 
             limit = limit, 
