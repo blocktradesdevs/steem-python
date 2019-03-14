@@ -1071,6 +1071,123 @@ class Steemd(HttpClient):
             use_condenser = False)
 
 
+    def debug_generate_blocks(self, debug_key, count, skip = 0, miss_blocks = 0, edit_if_needed = True):
+        """
+        Generate blocks on the current chain. Pending transactions will be applied, otherwise the
+        blocks will be empty.
+
+        :param str debug_key: Private WIF key to sign blocks with.
+        :param int count: The number of new blocks to generate.
+        :param int skip: Skip chosen validation stem (0 - skip nothing)
+        :param int miss_blocks: Blocks to miss.
+        :param bool edit_if_needed: Edit witness key if needed
+
+        :returns int: The number of blocks actually pushed.
+        """
+        if (count < 0):
+            raise ValueError( "count must be a positive non-zero number" )
+
+        return self.call('debug_node_api.debug_generate_blocks',
+            debug_key = debug_key,
+            count = count,
+            skip = skip,
+            miss_blocks = miss_blocks,
+            edit_if_needed = edit_if_needed,
+            use_condenser = False
+        )
+
+
+    def debug_generate_blocks_until(self, debug_key, timestamp, generate_sparsely = True):
+        """
+        Generate block up until a head block time rather than a specific number of blocks. As with
+        `debug_generate_blocks` all blocks will be empty unless there were pending transactions.
+
+        :param str debug_key: Private WIF key to sign blocks with.
+        :param str timestamp: The desired new head block time. This is a POSIX Timestmap.
+        :param bool generate_sparsely: True if you wish to skip all intermediate blocks between the current
+            head block time and the desired head block time. This is useful to trigger events, such
+            as payouts and bandwidth updates, without generating blocks. However, many automatic chain
+            updates (such as block inflation) will not continue at their normal rate as they are only
+            calculated when a block is produced.
+
+        :returns (time, int): A tuple including the new head block time and the number of blocks that were generated.
+        """
+
+        return self.call('debug_node_api.debug_generate_blocks_until',
+            debug_key = debug_key,
+            timestamp = timestamp,
+            generate_sparsely = generate_sparsely,
+            use_condenser = False
+        )
+
+
+    def debug_set_hardfork(self, hardfork_id):
+        """
+        Schedules a hardfork to happen on the next block. call `debug_generate_blocks( 1 )` to trigger
+        the hardfork. All hardforks with id less than or equal to hardfork_id will be scheduled and
+        triggered.
+
+        :param str hardfork_id: The id of the hardfork to set. Hardfork IDs start at 1 (0 is genesis) and increment by one for each hardfork. The maximum value is STEEM_NUM_HARDFORKS in chain/hardfork.d/0-preamble.hf
+        """
+        if (hardfork_id < 0):
+            raise ValueError("hardfork_id cannot be negative")
+
+        return self.call('debug_node_api.debug_set_hardfork',
+            hardfork_id = hardfork_id,
+            use_condenser = False
+        )
+
+
+    def debug_has_hardfork(self, hardfork_id):
+        """
+        """
+        if (hardfork_id < 0):
+            raise ValueError( "hardfork_id cannot be negative" )
+
+        return self.call('debug_node_api.debug_has_hardfork',
+            hardfork_id = hardfork_id,
+            use_condenser = False
+        )
+
+
+    def debug_get_witness_schedule(self):
+        """
+        """
+        return self.call('debug_node_api.debug_get_witness_schedule',
+            use_condenser = False,
+            no_params = True
+        )
+
+
+    def debug_get_hardfork_property_object(self):
+        """
+        """
+        return self.call('debug_node_api.debug_get_hardfork_property_object',
+            use_condenser = False,
+            no_params = True
+        )
+
+    def debug_pop_block(self):
+        return self.call('debug_node_api.debug_pop_block',
+            use_condenser = False,
+            no_params = True
+        )
+
+    def debug_push_blocks(self, file_name, count, skip_validate_invariants = False):
+        return self.call('debug_node_api.debug_push_blocks',
+            file_name = file_name, 
+            count = count, 
+            skip_validate_invariants = skip_validate_invariants,
+            use_condenser = False
+        )
+
+    def debug_get_json_schema(self):
+        return self.call('debug_node_api.debug_get_json_schema',
+            use_condenser = False,
+            no_params = True
+        )
+
+
 if __name__ == '__main__':
     s = Steemd()
     print(s.get_account_count())
