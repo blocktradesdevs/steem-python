@@ -1028,27 +1028,23 @@ class Steemd(HttpClient):
             id_set = id_set, 
             use_condenser = False)
 
-    def list_voter_proposals(self, start, order_by, order_direction, limit, status):
+    def list_voter_proposals(self, start, order_by, limit, status):
         """ Query for proposals voted by given voter
             :param str start: Starting value for search.
             :param str order_by: Results will be ordered with respect to given
                 field name. Allowed: by_creator, by_start_date, by_end_date, 
                 by_number_of_votes
-            :param str order_direction: Results will be ordered descending or
-                ascending depending on this option. Allowed:
-                direction_ascending, direction_descending
             :param int limit: Limit results to this value
             :param str status: List only results with given state (inactive, active, all)
         """
         return self.call('sps_api.list_voter_proposals', 
             start = start, 
             order_by = order_by, 
-            order_direction = order_direction, 
             limit = limit, 
             status = status, 
             use_condenser = False)
 
-    def list_proposals(self, start, order_by, order_direction, limit, status):
+    def list_proposals(self, start, order_by, limit, status):
         """ Query for proposals with search criteria
             :param str start: Starting value for search. This option is coupled
                 with order_by option. If you select by_creator in order_by
@@ -1056,16 +1052,12 @@ class Steemd(HttpClient):
             :param str order_by: Results will be ordered with respect to given
                 field name. Allowed: by_creator, by_start_date, by_end_date, 
                 by_number_of_votes
-            :param str order_direction: Results will be ordered descending or
-                ascending depending on this option. Allowed:
-                direction_ascending, direction_descending
             :param int limit: Limit results to this value
             :param str status: List only results with given state (inactive, active, all)
         """
         return self.call('sps_api.list_proposals', 
             start = start, 
             order_by = order_by, 
-            order_direction = order_direction, 
             limit = limit, 
             status = status, 
             use_condenser = False)

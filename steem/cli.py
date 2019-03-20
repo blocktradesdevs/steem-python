@@ -793,9 +793,6 @@ def legacyentry():
     parser_listproposals.add_argument('order_by', type = str, 
         help = 'Results will be ordered by this field', 
         choices=["by_creator", "by_start_date", "by_end_date", "by_number_of_votes"])
-    parser_listproposals.add_argument('order_direction', type = str, 
-        help = 'Results will be ordered ascending or descending', 
-        choices = ["direction_ascending", "direction_descending"])
     parser_listproposals.add_argument('limit', type = int, 
         help = 'Limit resut of the query to number defined in this parameter')
     parser_listproposals.add_argument('status', type = str, 
@@ -813,9 +810,6 @@ def legacyentry():
     parser_listvoterproposals.add_argument('order_by', type = str, 
         help = 'Results will be ordered by this field', 
         choices=["by_creator", "by_start_date", "by_end_date", "by_number_of_votes"])
-    parser_listvoterproposals.add_argument('order_direction', type = str, 
-        help = 'Results will be ordered ascending or descending', 
-        choices = ["direction_ascending", "direction_descending"])
     parser_listvoterproposals.add_argument('limit', type = int, 
         help = 'Limit resut of the query to number defined in this parameter')
     parser_listvoterproposals.add_argument('status', type = str, 
@@ -1434,7 +1428,6 @@ def legacyentry():
         print_json(steem.list_proposals(
             args.start, 
             args.order_by, 
-            args.order_direction, 
             args.limit, 
             args.status))
 
@@ -1442,7 +1435,6 @@ def legacyentry():
         print_json(steem.list_voter_proposals(
             args.start, 
             args.order_by, 
-            args.order_direction, 
             args.limit, 
             args.status))
 

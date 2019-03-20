@@ -60,7 +60,7 @@ def test_list_proposals():
     print("test_list_proposals")
     s = Steem(nodes = TEST_NODES, no_broadcast = False, keys = [WIF])
     # list inactive proposals, our proposal shoud be here
-    proposals = s.list_proposals(ACCOUNT, "by_creator", "direction_ascending", 1000, "inactive")
+    proposals = s.list_proposals(ACCOUNT, "by_creator", 1000, "inactive")
     found = None
     for proposal in proposals:
         if proposal["subject"] == SUBJECT:
@@ -69,7 +69,7 @@ def test_list_proposals():
     assert found is not None
     
     # list active proposals, our proposal shouldnt be here
-    proposals = s.list_proposals(ACCOUNT, "by_creator", "direction_ascending", 1000, "active")
+    proposals = s.list_proposals(ACCOUNT, "by_creator", 1000, "active")
     found = None
     for proposal in proposals:
         if proposal["subject"] == SUBJECT:
@@ -78,7 +78,7 @@ def test_list_proposals():
     assert found is None
 
     # list all proposals, our proposal should be here
-    proposals = s.list_proposals(ACCOUNT, "by_creator", "direction_ascending", 1000, "all")
+    proposals = s.list_proposals(ACCOUNT, "by_creator", 1000, "all")
 
     found = None
     for proposal in proposals:
@@ -92,7 +92,7 @@ def test_find_proposals():
     print("test_find_proposals")
     s = Steem(nodes = TEST_NODES, no_broadcast = False, keys = [WIF])
     # first we will find our special proposal and get its id
-    proposals = s.list_proposals(ACCOUNT, "by_creator", "direction_ascending", 1000, "inactive")
+    proposals = s.list_proposals(ACCOUNT, "by_creator", 1000, "inactive")
 
     found = None
     for proposal in proposals:
@@ -110,7 +110,7 @@ def test_vote_proposal():
     print("test_vote_proposal")
     s = Steem(nodes = TEST_NODES, no_broadcast = False, keys = [WIF])
     # first we will find our special proposal and get its id
-    proposals = s.list_proposals(ACCOUNT, "by_creator", "direction_ascending", 1000, "inactive")
+    proposals = s.list_proposals(ACCOUNT, "by_creator", 1000, "inactive")
 
     found = None
     for proposal in proposals:
@@ -131,7 +131,7 @@ def test_vote_proposal():
 def test_list_voter_proposals():
     print("test_list_voter_proposals")
     s = Steem(nodes = TEST_NODES, no_broadcast = False, keys = [WIF])
-    proposals = s.list_voter_proposals(ACCOUNT, "by_creator", "direction_ascending", 1000, "inactive")
+    proposals = s.list_voter_proposals(ACCOUNT, "by_creator", 1000, "inactive")
 
     found = None
     for proposal in proposals:
@@ -145,7 +145,7 @@ def test_remove_proposal():
     print("test_remove_proposal")
     s = Steem(nodes = TEST_NODES, no_broadcast = False, keys = [WIF])
     # first we will find our special proposal and get its id
-    proposals = s.list_proposals(ACCOUNT, "by_creator", "direction_ascending", 1000, "inactive")
+    proposals = s.list_proposals(ACCOUNT, "by_creator", 1000, "inactive")
 
     found = None
     for proposal in proposals:
@@ -159,7 +159,7 @@ def test_remove_proposal():
     s.commit.remove_proposal(ACCOUNT, [proposal_id])
 
     # try to find our special proposal
-    proposals = s.list_proposals(ACCOUNT, "by_creator", "direction_ascending", 1000, "inactive")
+    proposals = s.list_proposals(ACCOUNT, "by_creator", 1000, "inactive")
 
     found = None
     for proposal in proposals:
