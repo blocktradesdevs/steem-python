@@ -86,8 +86,6 @@ class TransactionBuilder(dict):
             ops = [Operation(o) for o in self.op]
         else:
             ops = [Operation(self.op)]
-        for op in ops:
-            print("ID: {}, NAME: {}".format(op.opId, op.name))
         expiration = fmt_time_from_now(self.expiration)
         ref_block_num, ref_block_prefix = get_block_params(self.steemd)
         tx = SignedTransaction(

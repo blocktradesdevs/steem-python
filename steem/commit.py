@@ -405,6 +405,7 @@ class Commit(object):
             store_owner_key=False,
             delegation_fee_steem='0 STEEM',
             creator=None,
+            asset='STEEM'
     ):
         """ Create new account in Steem
 
@@ -574,6 +575,7 @@ class Commit(object):
 
         required_fee_vests = 0
         delegation_fee_steem = Amount(delegation_fee_steem).amount
+        op = None
         if delegation_fee_steem:
             # creating accounts without delegation requires 30x
             # account_creation_fee creating account with delegation allows one
@@ -593,33 +595,57 @@ class Commit(object):
                 required_sp = remaining_fee * delegated_sp_fee_mult
                 required_fee_vests = Converter().sp_to_vests(required_sp) + 1
 
-        s = {
-            'creator': creator,
-            'fee': '%s STEEM' % (delegation_fee_steem or required_fee_steem),
-            'delegation': '%s VESTS' % required_fee_vests,
-            'json_metadata': json_meta or {},
-            'memo_key': memo,
-            'new_account_name': account_name,
-            'owner': {
-                'account_auths': owner_accounts_authority,
-                'key_auths': owner_key_authority,
-                'weight_threshold': 1
-            },
-            'active': {
-                'account_auths': active_accounts_authority,
-                'key_auths': active_key_authority,
-                'weight_threshold': 1
-            },
-            'posting': {
-                'account_auths': posting_accounts_authority,
-                'key_auths': posting_key_authority,
-                'weight_threshold': 1
-            },
-            'prefix': self.steemd.chain_params["prefix"]
-        }
+            s = {
+                'creator': creator,
+                'fee': '%s %s' % (delegation_fee_steem or required_fee_steem, asset),
+                'delegation': '%s VESTS' % required_fee_vests,
+                'json_metadata': json_meta or {},
+                'memo_key': memo,
+                'new_account_name': account_name,
+                'owner': {
+                    'account_auths': owner_accounts_authority,
+                    'key_auths': owner_key_authority,
+                    'weight_threshold': 1
+                },
+                'active': {
+                    'account_auths': active_accounts_authority,
+                    'key_auths': active_key_authority,
+                    'weight_threshold': 1
+                },
+                'posting': {
+                    'account_auths': posting_accounts_authority,
+                    'key_auths': posting_key_authority,
+                    'weight_threshold': 1
+                },
+                'prefix': self.steemd.chain_params["prefix"]
+            }
+            op = operations.AccountCreateWithDelegation(**s)
+        else:
+            s = {
+                'creator': creator,
+                'fee': '%s %s' % (required_fee_steem, asset),
+                'json_metadata': json_meta or {},
+                'memo_key': memo,
+                'new_account_name': account_name,
+                'owner': {
+                    'account_auths': owner_accounts_authority,
+                    'key_auths': owner_key_authority,
+                    'weight_threshold': 1
+                },
+                'active': {
+                    'account_auths': active_accounts_authority,
+                    'key_auths': active_key_authority,
+                    'weight_threshold': 1
+                },
+                'posting': {
+                    'account_auths': posting_accounts_authority,
+                    'key_auths': posting_key_authority,
+                    'weight_threshold': 1
+                },
+                'prefix': self.steemd.chain_params["prefix"]
+            }
 
-        op = operations.AccountCreateWithDelegation(**s)
-
+            op = operations.AccountCreate(**s)
         return self.finalizeOp(op, creator, "active")
 
     def transfer(self, to, amount, asset, memo="", account=None):
@@ -643,7 +669,7 @@ class Commit(object):
         if not account:
             raise ValueError("You need to provide an account")
 
-        assert asset in ['STEEM', 'SBD', 'TBD']
+        assert asset in ['STEEM', 'SBD', 'TBD', 'TESTS']
 
         if memo and memo[0] == "#":
             from steembase import memo as Memo
@@ -701,7 +727,7 @@ class Commit(object):
 
         return self.finalizeOp(op, account, "active")
 
-    def transfer_to_vesting(self, amount, to=None, account=None):
+    def transfer_to_vesting(self, amount, to=None, account=None, asset='STEEM'):
         """ Vest STEEM
 
         :param float amount: number of STEEM to vest
@@ -729,7 +755,7 @@ class Commit(object):
                     to,
                 "amount":
                     '{:.{prec}f} {asset}'.format(
-                        float(amount), prec=3, asset='STEEM')
+                        float(amount), prec=3, asset=asset)
             })
 
         return self.finalizeOp(op, account, "active")
