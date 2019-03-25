@@ -799,8 +799,11 @@ def legacyentry():
     parser_listproposals.add_argument('limit', type = int, 
         help = 'Limit resut of the query to number defined in this parameter')
     parser_listproposals.add_argument('status', type = str, 
-        help = 'List only results with given state (inactive, active, all)', 
-        choices = ["inactive", "active", "all"])
+        help = 'List only results with given state (inactive, active, all, expired)', 
+        choices = ["inactive", "active", "expired", "all"])
+    parser_listproposals.add_argument('last_id', type = int, 
+        help = 'Start iteration with this id',
+        default = None)
 
     """
         list_voter_proposals
@@ -1436,7 +1439,8 @@ def legacyentry():
             args.order_by, 
             args.order_direction, 
             args.limit, 
-            args.status))
+            args.status,
+            args.last_id))
 
     elif args.command == "listvoterproposals":
         print_json(steem.list_voter_proposals(

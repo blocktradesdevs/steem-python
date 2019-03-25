@@ -1526,7 +1526,7 @@ class Commit(object):
         op = operations.UpdateProposalVotes(
             **{
                 "voter" : voter["name"],
-                "proposal_ids" : proposal_ids,
+                "proposal_ids" : sorted(proposal_ids),
                 "approve" : approve
             }
         )
@@ -1541,7 +1541,7 @@ class Commit(object):
         op = operations.RemoveProposal(
             **{
                 "proposal_owner" : proposal_owner["name"],
-                "proposal_ids" : proposal_ids
+                "proposal_ids" : sorted(proposal_ids)
             }
         )
         return self.finalizeOp(op, proposal_owner["name"], "active")

@@ -10,7 +10,7 @@ from .account import PublicKey
 from .operationids import operations
 from .types import (Int16, Uint16, Uint32, Uint64, String, HexString, Bytes,
                     Array, PointInTime, Bool, Optional, Map, Id, JsonObj,
-                    StaticVariant)
+                    StaticVariant, Set)
 
 default_prefix = "STM"
 
@@ -847,7 +847,7 @@ class UpdateProposalVotes(GrapheneObject):
             super(UpdateProposalVotes, self).__init__(
                 OrderedDict([
                     ('voter', String(kwargs["voter"])),
-                    ('proposal_ids', Array([Uint64(o) for o in kwargs["proposal_ids"]])),
+                    ('proposal_ids', Set([Uint64(o) for o in kwargs["proposal_ids"]])),
                     ('approve', Bool(bool(kwargs["approve"])))
                 ])
             )
@@ -863,7 +863,7 @@ class RemoveProposal(GrapheneObject):
             super(RemoveProposal, self).__init__(
                 OrderedDict([
                     ('proposal_owner', String(kwargs["proposal_owner"])),
-                    ('proposal_ids', Array([Uint64(o) for o in kwargs["proposal_ids"]]))
+                    ('proposal_ids', Set([Uint64(o) for o in kwargs["proposal_ids"]]))
                 ])
             )
 

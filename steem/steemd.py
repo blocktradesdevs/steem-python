@@ -1048,7 +1048,7 @@ class Steemd(HttpClient):
             status = status, 
             use_condenser = False)
 
-    def list_proposals(self, start, order_by, order_direction, limit, status):
+    def list_proposals(self, start, order_by, order_direction, limit, status, last_id = None):
         """ Query for proposals with search criteria
             :param str start: Starting value for search. This option is coupled
                 with order_by option. If you select by_creator in order_by
@@ -1067,7 +1067,8 @@ class Steemd(HttpClient):
             order_by = order_by, 
             order_direction = order_direction, 
             limit = limit, 
-            status = status, 
+            status = status,
+            last_id = last_id,
             use_condenser = False)
 
 
