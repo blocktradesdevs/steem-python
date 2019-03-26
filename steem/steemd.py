@@ -1116,7 +1116,7 @@ class Steemd(HttpClient):
 
         return self.call('debug_node_api.debug_generate_blocks_until',
             debug_key = debug_key,
-            timestamp = timestamp,
+            head_block_time = timestamp,
             generate_sparsely = generate_sparsely,
             use_condenser = False
         )
