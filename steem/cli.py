@@ -799,8 +799,8 @@ def legacyentry():
     parser_listproposals.add_argument('limit', type = int, 
         help = 'Limit resut of the query to number defined in this parameter')
     parser_listproposals.add_argument('status', type = str, 
-        help = 'List only results with given state (inactive, active, all, expired)', 
-        choices = ["inactive", "active", "expired", "all"])
+        help = 'List only results with given state (inactive, active, all, expired, votable)', 
+        choices = ["inactive", "active", "expired", "all", "votable"])
     parser_listproposals.add_argument('last_id', type = int, 
         help = 'Start iteration with this id',
         default = None)
@@ -822,8 +822,8 @@ def legacyentry():
     parser_listvoterproposals.add_argument('limit', type = int, 
         help = 'Limit resut of the query to number defined in this parameter')
     parser_listvoterproposals.add_argument('status', type = str, 
-        help = 'List only results with given state (inactive, active, all)', 
-        choices = ["inactive", "active", "all"])
+        help = 'List only results with given state (inactive, active, all, expired, votable)', 
+        choices = ["inactive", "active", "expired", "all", "votable"])
     
     """
         Parse Arguments

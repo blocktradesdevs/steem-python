@@ -30,6 +30,7 @@ log = logging.getLogger(__name__)
 
 STEEMIT_100_PERCENT = 10000
 STEEMIT_1_PERCENT = (STEEMIT_100_PERCENT / 100)
+STEEM_PROPOSAL_MAX_IDS_NUMBER = 5
 
 
 # TODO
@@ -1500,6 +1501,31 @@ class Commit(object):
             :param str subject: Short description of the proposal
             :param str permlink: permlink-identifier of the detailed description of the proposal
         """
+        import dateutil.parser
+        now = self.steemd.get_dynamic_global_properties().get('time', None)
+        if now is None:
+            raise ValueError("Head time is None")
+        now = dateutil.parser.parse(now)
+
+        import dateutil.parser
+        start = dateutil.parser.parse(start_date)
+        end = dateutil.parser.parse(end_date)
+
+        assert start > now, "Start date must be in the future"
+        assert end > start, "End date must be greater than the start date"
+        assert len(subject) != 0, "Subject cannot be an empty string"
+        assert len(permlink) != 0, "Permlink cannot be an empty string"
+        value, asset = daily_pay.split(" ")
+
+        assert asset in ['STEEM', 'SBD', 'TBD', 'TESTS'], "Unsupported asset symbol"
+        
+        try:
+            value = float(value)
+        except Exception:
+            raise ValueError("Value must be valid float")
+        if value <= 0.:
+            raise ValueError("Value of daily pay cannot be negative")
+
         creator = Account(creator, steemd_instance=self.steemd)
         receiver = Account(receiver, steemd_instance=self.steemd)
         op = operations.CreateProposal(
@@ -1514,7 +1540,7 @@ class Commit(object):
             }
         )
         return self.finalizeOp(op, creator["name"], "active")
-    
+
     def update_proposal_votes(self, voter, proposal_ids, approve):
         """ Allows for voting for selected proposals
             :param str voter: Voter account name
@@ -1522,6 +1548,7 @@ class Commit(object):
                 for proposals given in this list
             :param bool approve: If set to true proposals will be approved
         """
+        assert len(proposal_ids) <= STEEM_PROPOSAL_MAX_IDS_NUMBER, "Proposal IDs count exceed allowed maximum {} > {}".format(len(proposal_ids), STEEM_PROPOSAL_MAX_IDS_NUMBER)
         voter = Account(voter, steemd_instance=self.steemd)
         op = operations.UpdateProposalVotes(
             **{
@@ -1537,6 +1564,7 @@ class Commit(object):
             :param str proposal_owner: Proposal owner/creator account
             :param list proposal_ids: Ids of the proposal to be removed
         """
+        assert len(proposal_ids) <= STEEM_PROPOSAL_MAX_IDS_NUMBER, "Proposal IDs count exceed allowed maximum {} > {}".format(len(proposal_ids), STEEM_PROPOSAL_MAX_IDS_NUMBER)
         proposal_owner = Account(proposal_owner, steemd_instance=self.steemd)
         op = operations.RemoveProposal(
             **{

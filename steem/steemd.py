@@ -1028,7 +1028,7 @@ class Steemd(HttpClient):
             id_set = id_set, 
             use_condenser = False)
 
-    def list_voter_proposals(self, start, order_by, order_direction, limit, status):
+    def list_voter_proposals(self, start, order_by, order_direction, limit, status, last_id = None):
         """ Query for proposals voted by given voter
             :param str start: Starting value for search.
             :param str order_by: Results will be ordered with respect to given
@@ -1038,7 +1038,8 @@ class Steemd(HttpClient):
                 ascending depending on this option. Allowed:
                 direction_ascending, direction_descending
             :param int limit: Limit results to this value
-            :param str status: List only results with given state (inactive, active, all)
+            :param str status: List only results with given state (inactive, active, all, votable)
+            :param int last_id: id of the proposal to start listing, helpful when one need to paginate results k where k > limit (id or empty string)
         """
         return self.call('sps_api.list_voter_proposals', 
             start = start, 
@@ -1046,6 +1047,7 @@ class Steemd(HttpClient):
             order_direction = order_direction, 
             limit = limit, 
             status = status, 
+            last_id = last_id,
             use_condenser = False)
 
     def list_proposals(self, start, order_by, order_direction, limit, status, last_id = None):
@@ -1060,7 +1062,8 @@ class Steemd(HttpClient):
                 ascending depending on this option. Allowed:
                 direction_ascending, direction_descending
             :param int limit: Limit results to this value
-            :param str status: List only results with given state (inactive, active, all)
+            :param str status: List only results with given state (inactive, active, all, votable)
+            :param int last_id: id of the proposal to start listing, helpful when one need to paginate results k where k > limit (id or empty string)
         """
         return self.call('sps_api.list_proposals', 
             start = start, 
