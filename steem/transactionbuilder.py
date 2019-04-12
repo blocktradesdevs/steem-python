@@ -86,7 +86,17 @@ class TransactionBuilder(dict):
             ops = [Operation(o) for o in self.op]
         else:
             ops = [Operation(self.op)]
-        expiration = fmt_time_from_now(self.expiration)
+
+        # calculation expiration time from last block time not system time
+        import dateutil.parser
+        from datetime import timedelta
+        now = self.steemd.get_dynamic_global_properties().get('time')
+        now = dateutil.parser.parse(now)
+        
+        expiration = now + timedelta(seconds = self.expiration)
+        expiration = expiration.replace(microsecond=0).isoformat()
+        
+        #expiration = fmt_time_from_now(self.expiration)
         ref_block_num, ref_block_prefix = get_block_params(self.steemd)
         tx = SignedTransaction(
             ref_block_num=ref_block_num,
