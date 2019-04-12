@@ -458,6 +458,21 @@ def legacyentry():
     parser_updateMemoKey.add_argument(
         '--key', type=str, default=None, help='The new memo key')
     """
+        Command "accountwitnessproxy"
+    """
+    parser_accountwitnessproxy = subparsers.add_parser(
+        'accountwitnessproxy', help = 'Setup a voting proxy for account'
+    )
+    parser_accountwitnessproxy.set_defaults(command='accountwitnessproxy')
+    parser_accountwitnessproxy.add_argument(
+        'proxy', type=str, help='Account name to be set as a proxy')
+    parser_accountwitnessproxy.add_argument(
+        '--account',
+        type=str,
+        required=False,
+        default=configStorage["default_account"],
+        help='Your account')
+    """
         Command "approvewitness"
     """
     parser_approvewitness = subparsers.add_parser(
@@ -1319,9 +1334,15 @@ def legacyentry():
         dex = Dex(steem)
         print_json(dex.cancel(args.orderid))
 
+    elif args.command == "accountwitnessproxy":
+        print_json(
+            steem.commit.account_witness_proxy(args.proxy, account=args.account)
+        )
+
     elif args.command == "approvewitness":
         print_json(
-            steem.commit.approve_witness(args.witness, account=args.account))
+            steem.commit.approve_witness(args.witness, account=args.account)
+        )
 
     elif args.command == "disapprovewitness":
         print_json(
