@@ -1338,14 +1338,14 @@ class Commit(object):
         return self.approve_witness(
             witness=witness, account=account, approve=False)
 
-    def account_witness_proxy(self, proxy, account=None):
+    def account_witness_proxy(self, proxy, account = None):
         """ Set voting proxy for account.
 
             :param str proxy: account which be working as proxy
             :param str account: (optional) the account which is setting the proxy
                 (defaults to ``default_account``)
         """
-        if not account: 
+        if not account:
             account = configStorage.get("default_account")
         if not account:
             raise ValueError("You need to provide an account")
@@ -1355,7 +1355,7 @@ class Commit(object):
             "account" : account['name'],
             "proxy" : proxy['name']
         })
-        return self.finalizeOp(op, account, "active")
+        return self.finalizeOp(op, account['name'], "active")
 
     def custom_json(self,
                     id,
